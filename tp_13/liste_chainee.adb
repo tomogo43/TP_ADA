@@ -33,7 +33,15 @@ procedure liste_chainee is
     
     --****fonctions****
 
-    --Fonction qui créée une liste vide
+    --*********************************************************************
+    --nom: creer_liste_vide
+    --sémantique: creer une liste T_Liste_Entier vide
+    --paramètres: aucun
+    --retourne T_Liste_Entier
+    --pré condition: aucune
+    --post condition: retourne T_Liste_Entier
+    --Exception: aucune
+    --*********************************************************************
     function creer_liste_vide return T_Liste_Entier is
         --pré-condition: aucune
         --post-condition: retourne une liste 
@@ -47,8 +55,18 @@ procedure liste_chainee is
 
     end creer_liste_vide; --fin creer_liste_vide
 
-    --Fonction qui vérifie que la liste est vide
-    function est_vide(F_l:T_Liste_Entier) return boolean is
+    
+    --*********************************************************************
+    --nom: est_vide
+    --sémantique: indique si une liste est vide ou non
+    --paramètres:
+    --      F_l: Mode(IN) T_Liste_Entier; liste linéaire
+    --retourne boolean
+    --pré condition: aucune
+    --post condition: retourne true si vide false sinon 
+    --Exception: aucune
+    --*********************************************************************
+    function est_vide(F_l:in T_Liste_Entier) return boolean is
         begin --début est_vide
         if F_l = null then
             return true;
@@ -67,8 +85,9 @@ procedure liste_chainee is
     --paramètres:
     --      F_e: Mode (IN) Integer; entier à rechercher
     --      F_l: Mode(IN) T_Liste_Entier; liste linéaire
+    --retourne:boolean;
     --pré condition: aucune
-    --post condition: 
+    --post condition: retourne l'adresse de l'élément recherché
     --Exception: aucune
     --*********************************************************************
     function rechercher(F_e: in integer;F_l: in out T_Liste_Entier) return T_Liste_Entier is
@@ -160,37 +179,28 @@ procedure liste_chainee is
         LISTE_VIDE:exception;
 
         L_ap:T_Liste_Entier;
+        
         courant:T_Liste_Entier;
 
         begin --début insérer après
 
-        L_ap:=new T_Cellule_Entier;
+        
 
         --vérifie si la liste n'est pas vide
         if est_vide(F_l) = true then
             raise LISTE_VIDE;
         else
-            courant:=F_l;
+            courant := rechercher(F_a,F_l); --on se place sur l'élément de la liste
+            new_line;
+            l_ap := courant.all.suivant;
+            courant.all.suivant := new T_Cellule_Entier'(F_e,l_ap);
+            --courant.all.suivant.all.suivant := l_ap;
+            
         end if;
 
         --vérifie si l'élément d'ince est présent dans la liste
-
-        if rechercher(F_a,courant) /= null then
-            courant:=rechercher(F_a,courant);
-            L_ap.all.element:=F_e;
-            L_ap.all.suivant:=courant.all.suivant;
-            courant.all.suivant:=L_ap;
-
-        else
-            new_line;
-            put("rien");
-        end if;
         
-
-        
-
-
-
+       
         exception 
             when ELT_EXCEPTION   => put_line("Aucun élément dans la liste");
             when LISTE_VIDE      => put_line("Liste vide");
@@ -204,10 +214,10 @@ procedure liste_chainee is
     inserer_en_tete(2,liste);
 
     afficher_liste(liste);
-    inserer_apres(5,2,liste);
-    inserer_apres(10,5,liste);
-    inserer_apres(14,10,liste);
+    
+    inserer_apres(3,2,liste);
+    inserer_apres(4,2,liste);
+    
     afficher_liste(liste);
 
-   
 end liste_chainee; --fin du programme

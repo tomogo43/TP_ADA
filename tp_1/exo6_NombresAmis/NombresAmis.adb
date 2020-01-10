@@ -1,7 +1,16 @@
---TP1 Programmation impérative:Premiers programmes en ADA
---4)Nombres Amis
+--******************************************************************
+--               TP1:Programmation impérative
+--						Nombres amis
+--******************************************************************
+
+--******************************************************************
+--                          description
+--Affiche les nombres amis N et M entre 1 et 2 tq 1<N<M<=MAX
+--******************************************************************
 
 --Spécification
+--test voir sujet pour N=100000
+
 --R0[Afficher tous les nombres amis deux à deux N et M entre 1 et MAX tq 1<N<M<=MAX]
 --R1:Comment R0
 
@@ -16,15 +25,14 @@ with ada.float_text_io;
 use ada.float_text_io;
 
 procedure NombresAmis is
-    N:Integer:=0;
     M:Integer:=0;
     MAX:Integer:=0;
     S:Integer:=0;
     S2:Integer:=0;
 begin
-    --R1-1 Saisir entier naturel MAX>2
+    --R1-1 Saisir entier naturel MAX >2
     loop
-        Put("Veuillez saisir MAX >2");
+        Put("Veuillez saisir MAX >2 ");
         Get(MAX);
         New_Line;
     exit when MAX>2;

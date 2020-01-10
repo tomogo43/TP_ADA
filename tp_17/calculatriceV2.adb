@@ -4,12 +4,12 @@
 
 --******************************************************************
 --                          description
--- Créer une calculatrice en utilisant les piles V2 avec un paquetage
---générique p_pile
+-- Créer une calculatrice en utilisant les piles génériques
 --******************************************************************
 
 --Déclaration des bibliothèques
-with p_pile_gen;
+with pile_gen;
+--use pile_gen; pas de clause use
 
 with text_io;
 use text_io;
@@ -21,22 +21,26 @@ with ada.float_text_io;
 use ada.float_text_io;
 
 procedure calculatriceV2 is
-    ELT_EXCEPTION:exception;
+	
+	package p_pile_float is new pile_gen(float);
+	use p_pile_float;
+	
+	package p_pile_long_float is new pile_gen(long_float);
+	use p_pile_long_float;
+	
+	pile:p_pile_float.T_Pile_Entier; --écriture pointéesur p_pile_float
+	
+	ELT_EXCEPTION:exception;
     ELT1_EXCEPTION:exception;
     commande:STRING(1..10); --nombre,operation,...
     longueur: integer; 
-    n:integer; --l'entier saisi dans la commande
+    n:float; --l'entier saisi dans la commande
     o:character; --reçoit le caractère de l'opération
-
-    procedure calcul is
-
-        package p_pile_netier is new p_pile_gen(integer);
-        use p_pile_netier;
-        pile:T_Pile_Entier;
-
-        nb1:Integer; --nombre 1 du calcul
-        nb2:Integer; --nombre 2 du calcul
-        res:Integer; --résultat du calcul entre nb1 et nb2
+	
+	procedure calcul is
+        nb1:float; --nombre 1 du calcul
+        nb2:float; --nombre 2 du calcul
+        res:float; --résultat du calcul entre nb1 et nb2
         begin
         loop
         exit when 0>1;
@@ -63,7 +67,7 @@ procedure calculatriceV2 is
                             res:=nb1/nb2;       --effectue la division   
                             empiler(res,pile);  --met le resultat au sommet de la pile
 
-            when others =>  n:=integer'value(commande(1..longueur)); 
+            when others =>  n:=Float'value(commande(1..longueur)); 
                             empiler(n,pile);
                             
         end case;
@@ -75,14 +79,22 @@ procedure calculatriceV2 is
         end loop;
         exception
         when CONSTRAINT_ERROR => calcul;
-        when others => put("une autre erreur est survenu dans le programme");
+        when others => calcul;
+        
+        
     end calcul;
+	
+	
+	begin --debut du programme
+	
+	pile:=creer_pile_vide;
+	empiler(3.0,pile);
+	empiler(4.0,pile);
+	empiler(5.0,pile);
+	empiler(6.0,pile);
+	afficher(pile);
+	
+	calcul;
 
-    begin
 
-    calcul;
-    
-    
-
-    
-end calculatriceV2;
+end calculatriceV2; --fin du programme

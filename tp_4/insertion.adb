@@ -1,9 +1,10 @@
 --******************************************************************
---                  Tri par insertion
+--				TP4:Exercices sur les tableaux                  
+--					Tri par insertion
 --******************************************************************
 
 --******************************************************************
---                          description
+--                      description
 --Tri un tableau grâce au principe du tri par insertion
 --******************************************************************
 
@@ -27,6 +28,7 @@ procedure insertion is
     --Variables
     i:Integer;
     j:Integer;
+    k:Integer;
     tmp:Integer;
 
     --Constantes
@@ -42,29 +44,40 @@ procedure insertion is
 
     begin
 
-    D:=(9,2,8,5,1,7);
+    D:=(9,2,8,5,1,7); --tableau de longueur 6
+    
     --R1:Comment R0
-    for i in 2 .. nmax loop
-        --R2:Insérer l'élément i du taleau
-        tmp:=D(i);
-        j:=i;
-
-        --R2:trier la partie temporaire
-        
-
-        while j>2 and D(j-1)>tmp loop
-            D(j):=D(j-1); --décale vers la gauche
-            j:=j-1;  
-        end loop;
-        D(j):=tmp;
-
+    
+    --parcourir le tableau et effectuer le tri par insertion
+    for i in 1 .. (nmax -1) loop
+		--R2-1:A chaque étape insérer insérer l'élément suivant à sa place
+		
+		tmp := D(i);
+		D(i) := D(i+1);
+		D(i+1) := tmp;
+		
+		--R2-2:Effectuer le trie du tableau entre 1 et i
+		if(i>1) then
+			for k in 1..i loop
+				for j in 1..(i-1) loop
+					if D(j)> D(j+1) then
+						tmp := D(j);
+						D(j) := D(j+1);
+						D(j+1) := tmp;
+					end if;
+				end loop;
+			end loop;
+		end if;
+		
+		
     end loop;
-
-        --R2:Afficher le tableau trié
-        for i in 1 .. nmax loop
-            put(D(i));
-            New_line;
-        end loop;
+    
+    --R2-3:Affichage du tableau trié
+    for i in 1..nmax loop
+		put(D(i));
+		new_line;
+	end loop;
+	
 
 end insertion;
 
